@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:http/http.dart' as http;
 void main() {
   runApp(const MyApp());
 }
@@ -25,30 +26,29 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     url = Uri.parse(Platform.isAndroid ? androidUrl : iosUrl);
   }
-
+  String ipAddress = "";
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                color: Colors.green,
-                child: TextButton(
-                  onPressed: () async {
-                    await launchUrl(url);
-                  },
-                  child: Text(
-                    Platform.isAndroid ? "Go to playstore" : "Go to appstore",
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                ipAddress
               ),
-            ),
-          ],
+              TextButton(onPressed: () async {
+                var ip = jsonDecode(
+                    (await http.get(Uri.parse('https://ip.seeip.org/geoip/')))
+                    .body)["ip"].toString();
+                setState(() {
+                  ipAddress = ip;
+                });
+              }, child: const Text("get ip"),),
+            ],
+          ),
         ),
       ),
     );
