@@ -1,14 +1,27 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_share_button/line_chart/line_chart.dart';
+import 'package:app_share_button/line_chart/line_chart_sample2.dart';
+import 'package:app_share_button/pie_chart/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+
 void main() {
-  runApp(const MyApp());
+  // runApp(const MyApp());
+  runApp(
+    const MaterialApp(
+      home: Scaffold(
+        // body: PieChartSample2(),
+        // body: LineChartSample1(),
+        body: Center(child: LineChartSample2()),
+      ),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
+/*class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
@@ -40,9 +53,10 @@ class _MyAppState extends State<MyApp> {
                 ipAddress
               ),
               TextButton(onPressed: () async {
-                var ip = jsonDecode(
-                    (await http.get(Uri.parse('https://ip.seeip.org/geoip/')))
-                    .body)["ip"].toString();
+                // var ip = jsonDecode(
+                //     (await http.get(Uri.parse('https://ip.seeip.org/geoip/')))
+                //     .body)["ip"].toString();
+                var ip = (await http.get(Uri.parse('http://api.ipify.org/'))).body.toString();
                 setState(() {
                   ipAddress = ip;
                 });
@@ -53,4 +67,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-}
+}*/
